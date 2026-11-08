@@ -13,9 +13,12 @@ include_directories(
     "libs"
 )
 
+
+file(GLOB_RECURSE source_file CONFIGURE_DEPENDS src/*)
+message(STATUS "Found *.cpp sources:\n${source_file}")
 # Main Program
 add_executable(main
-    src/main.cpp
+    ${source_file}
 )
 
 # Name Changer
