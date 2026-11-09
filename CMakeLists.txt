@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.30)
-project(RUNWICK_PROJECT LANGUAGES CXX C VERSION 1.0.0)
+project(RUNWICK_PROJECT LANGUAGES CXX VERSION 0.1.0)
 
 # Initial Settings
 set(CMAKE_CXX_STANDARD 20)
@@ -13,6 +13,10 @@ include_directories(
     "libs"
 )
 
+find_package(SDL3 CONFIG REQUIRED)
+if(SDL3_FOUND)
+    message(STATUS "Found SDL3 at: ${SDL3_DIR}")
+endif()
 
 file(GLOB_RECURSE source_file CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/src/*")
 message(STATUS "Found *.cpp sources:\n${source_file}")
@@ -29,3 +33,16 @@ target_include_directories(runwick PRIVATE
 
 # Name Changer
 set_target_properties(runwick PROPERTIES OUTPUT_NAME "RUNWICK")
+
+# Linker
+target_link_libraries(runwick PRIVATE
+    SDL3::SDL3
+)
+
+# Custom Command for copying Libraries
+add_custom_command(TARGET runwick POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different
+    $<TARGET_FILE:SDL3::SDL3>
+    $<TARGET_FILE_DIR:runwick>
+    COMMENT "Copying SDL3 Library to $<TARGET_FILE_DIR:runwick>"
+)
