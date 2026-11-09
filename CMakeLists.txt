@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.30)
+cmake_minimum_required(VERSION 3.19)
 project(RUNWICK_PROJECT LANGUAGES CXX VERSION 0.1.0)
 
 # Initial Settings
@@ -13,9 +13,31 @@ include_directories(
     "libs"
 )
 
-find_package(SDL3 CONFIG REQUIRED)
+find_package(SDL3 CONFIG QUIET)
 if(SDL3_FOUND)
     message(STATUS "Found SDL3 at: ${SDL3_DIR}")
+else() # Downloading the SDL3 if SDL3 is not available
+    message(STATUS "SDL3 not found on system - downloading from source")
+    include(FetchContent)
+
+    # Pin to a stable release. Check https://github.com/libsdl-org/SDL/releases
+    set(SDL3_TAG "release-3.4.20")
+
+    FetchContent_Declare(
+        SDL3
+        GIT_REPOSITORY https://github.com/libsdl-org/SDL.git
+        GIT_TAG        ${SDL3_TAG}
+        GIT_SHALLOW    TRUE
+    )
+
+    set(SDL_SHARED        ON  CACHE BOOL "" FORCE)
+    set(SDL_STATIC        OFF CACHE BOOL "" FORCE)
+    set(SDL_TEST_LIBRARY  OFF CACHE BOOL "" FORCE)
+    set(SDL_TESTS         OFF CACHE BOOL "" FORCE)
+    set(SDL_EXAMPLES      OFF CACHE BOOL "" FORCE)
+    set(SDL_INSTALL       OFF CACHE BOOL "" FORCE)
+
+    FetchContent_MakeAvailable(SDL3)
 endif()
 
 file(GLOB_RECURSE source_file CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/src/*")
