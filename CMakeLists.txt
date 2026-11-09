@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.30)
-project(TEMPLATE LANGUAGES CXX C VERSION 1.0.0)
+project(RUNWICK_PROJECT LANGUAGES CXX C VERSION 1.0.0)
 
 # Initial Settings
 set(CMAKE_CXX_STANDARD 20)
@@ -14,12 +14,18 @@ include_directories(
 )
 
 
-file(GLOB_RECURSE source_file CONFIGURE_DEPENDS src/*)
+file(GLOB_RECURSE source_file CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/src/*")
 message(STATUS "Found *.cpp sources:\n${source_file}")
-# Main Program
-add_executable(main
+# RUNWICK Game Program
+add_executable(runwick
     ${source_file}
 )
 
+# Including Directories
+target_include_directories(runwick PRIVATE
+    "include/core"
+    "include/utils"
+)
+
 # Name Changer
-set_target_properties(main PROPERTIES OUTPUT_NAME "main")
+set_target_properties(runwick PROPERTIES OUTPUT_NAME "RUNWICK")
