@@ -1,6 +1,6 @@
 <div align=center>
 
-# RUNWICK
+# cpp-runwick
 ### An endless platformer game created using C++ and SDL3 🎮
 
 </div>
