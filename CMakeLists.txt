@@ -106,3 +106,11 @@ add_custom_command(TARGET runwick POST_BUILD
     $<TARGET_FILE_DIR:runwick>
     COMMENT "Copying SDL3_image Library to $<TARGET_FILE_DIR:runwick>"
 )
+
+# Copy Data folder (Textures, Sprites)
+add_custom_command(TARGET runwick POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_directory_if_different
+    ${CMAKE_CURRENT_SOURCE_DIR}/data
+    $<TARGET_FILE_DIR:runwick>/data
+    COMMENT "Copying Data folder to $<TARGET_FILE_DIR:runwick>"
+)
