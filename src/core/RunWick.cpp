@@ -9,16 +9,26 @@ bool RunWick::initWindow() {
     if (wnd) SDL_DestroyWindow(wnd) ;
     SDL_Window *wnd = SDL_CreateWindow(sWindow.name.c_str(), sWindow.nWidth, sWindow.nHeight, 0) ;
     if (!wnd) {
-        msgShow(MsgStats::ERROR, "Failed to create Window", "Failed Allocation") ;
+        logError("create window") ;
         return false ;
     }
     
     if (rnd) SDL_DestroyRenderer(rnd) ;
     SDL_Renderer *rnd = SDL_CreateRenderer(wnd, nullptr) ;
     if (!rnd) {
-        msgShow(MsgStats::ERROR, "Failed to create Window", "Failed Allocation") ;
+        logError("create renderer") ;
         return false ;
     }
+    
+    // TO-DO: Add Window icon using surface
+    
+    if (playerTexture) SDL_DestroyTexture(playerTexture) ;
+    playerTexture = IMG_LoadTexture(rnd, "./data/character/knight/run/Run-Sheet.png") ;
+    if (!playerTexture) {
+        logError("load player texture") ;
+        return false ;
+    }
+    
     
     return true ;
 }
@@ -94,6 +104,16 @@ RunWick::RunWick(const WindowSettings windowSettings) : sWindow(windowSettings) 
 // Destructor
 RunWick::~RunWick() {
     
+    if (playerTexture) {
+        SDL_DestroyTexture(playerTexture) ;
+        playerTexture = nullptr ;
+    }
+    
+    if (surface) {
+        SDL_DestroySurface(surface) ;
+        surface = nullptr ;
+    }
+    
     if (rnd) {
         SDL_DestroyRenderer(rnd) ;
     }
@@ -110,7 +130,7 @@ RunWick::~RunWick() {
 // Setter
 void RunWick::setRenderColor(SDL_Color color) {
     if (!bInited || bInitFailed) {
-        msgShow(MsgStats::ERROR, "Can't set the render color when uninitialized, call init() first", "UnInitialized") ;
+        msgShow(MsgStats::ERROR, "Can't set the render color when uninitialized, call init() first/again", "UnInitialized") ;
         return ;
     }
     
@@ -126,11 +146,12 @@ void RunWick::init() {
     
     if (!initWindow()) {
         bInitFailed = true ;
+        bInited = true ;
         return ;
     }
     
-    bInited = true ;
     bInitFailed = false ;
+    bInited = true ;
 }
 
 // Game Loop

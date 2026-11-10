@@ -2,6 +2,7 @@
 #define RUNWICK_HPP
 
 #include <SDL3/SDL.h>
+#include <SDL3_image/SDL_image.h>
 
 #include "Settings.hpp"
 
@@ -25,6 +26,10 @@ private:
     // SDL3 Variables
     SDL_Window *wnd = nullptr ;
     SDL_Renderer *rnd = nullptr ;
+    
+    // Images & Textures
+    SDL_Surface *surface = nullptr ;
+    SDL_Texture *playerTexture = nullptr ;
     
     // Event Handler
     SDL_Event evn ;
