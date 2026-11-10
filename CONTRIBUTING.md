@@ -8,7 +8,7 @@ Requires:
 - <GCC 13 / Clang 17>, CMake ≥ 3.19. <br>
 -  SDL3 3.4.20 or higher <br>
 -  SDL3_ttf 3.2.xx or higher <br>
--  SDL3_image 3.4.xx or higher <br>
+-  SDL3_image 3.4.8 or higher <br>
 -  SDL3_mixer 3.2.xx or higher <br>
 
 ## Terminal
