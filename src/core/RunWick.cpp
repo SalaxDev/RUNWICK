@@ -22,14 +22,6 @@ bool RunWick::initWindow() {
     
     // TO-DO: Add Window icon using surface
     
-    if (playerTexture) SDL_DestroyTexture(playerTexture) ;
-    playerTexture = IMG_LoadTexture(rnd, "./data/character/knight/run/Run-Sheet.png") ;
-    if (!playerTexture) {
-        logError("load player texture") ;
-        return false ;
-    }
-    
-    
     return true ;
 }
 
@@ -103,11 +95,6 @@ RunWick::RunWick(const WindowSettings windowSettings) : sWindow(windowSettings) 
 
 // Destructor
 RunWick::~RunWick() {
-    
-    if (playerTexture) {
-        SDL_DestroyTexture(playerTexture) ;
-        playerTexture = nullptr ;
-    }
     
     if (surface) {
         SDL_DestroySurface(surface) ;

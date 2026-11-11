@@ -29,7 +29,6 @@ private:
     
     // Images & Textures
     SDL_Surface *surface = nullptr ;
-    SDL_Texture *playerTexture = nullptr ;
     
     // Event Handler
     SDL_Event evn ;
